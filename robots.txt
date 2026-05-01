@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://genestoolbox.app/sitemap.xml
