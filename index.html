@@ -97,6 +97,14 @@
       padding: 24px 0 40px 0;
     }
 
+    .story-grid {
+      display: grid;
+      grid-template-columns: 35% 1fr;
+      align-items: start;
+      padding-left: var(--left-margin);
+      padding-right: var(--left-margin);
+    }
+
     /* Pull quote: full bleed left, massive, slams into the left edge */
     .story-pull {
       font-family: 'Barlow Condensed', sans-serif;
@@ -105,6 +113,7 @@
       line-height: 0.88;
       letter-spacing: -0.02em;
       float: left;
+      text-align: left;
     }
 
     /* Body text: sits beside the pull quote, aligned to its top */
@@ -336,20 +345,96 @@
       line-height: 1.6;
     }
 
+    /* Mobile stack — hidden on desktop */
+    .ws-mobile-stack {
+      display: none;
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 720px) {
-      .section { padding: 64px 6vw; }
+      .section { padding: 64px var(--left-margin); }
 
-      .story-layout,
       .woodshed-layout,
       .beta-inner {
         grid-template-columns: 1fr;
         gap: 40px;
       }
 
-      .woodshed-mockup {
-        position: static;
-        max-height: 400px;
+      /* Story: single column */
+      .story-grid {
+        display: block;
+        padding-left: var(--left-margin);
+        padding-right: var(--left-margin);
+      }
+
+      .story-pull {
+        float: none;
+        display: block;
+        width: 100%;
+        font-size: clamp(28px, 9vw, 56px);
+        margin-bottom: 20px;
+        line-height: 1;
+        text-align: left;
+      }
+
+      .story-body {
+        max-width: 100%;
+        display: block;
+      }
+
+      /* Hide desktop two-column layout entirely */
+      .woodshed-content-inner {
+        display: block;
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      .woodshed-text {
+        display: none;
+      }
+
+      .woodshed-device-columns {
+        display: none;
+      }
+
+      /* Show mobile stack */
+      .ws-mobile-stack {
+        display: block;
+        padding: 0;
+      }
+
+      .ws-mobile-img {
+        display: block;
+        width: 70vw;
+        max-width: 280px;
+        height: auto;
+        margin: 32px auto 24px auto;
+      }
+
+      .ws-mobile-feature {
+        margin-bottom: 8px;
+        text-align: left;
+        padding-left: var(--left-margin);
+        padding-right: var(--left-margin);
+      }
+
+      .ws-mobile-headline {
+        font-family: 'Barlow Condensed', sans-serif;
+        font-weight: 400;
+        font-size: clamp(16px, 4vw, 22px);
+        letter-spacing: 0.01em;
+        color: var(--bg);
+        margin-bottom: 8px;
+        line-height: 1.1;
+      }
+
+      .ws-mobile-body {
+        font-family: 'DM Mono', monospace;
+        font-size: clamp(13px, 3.2vw, 15px);
+        line-height: 1.75;
+        opacity: 0.75;
+        color: var(--bg);
+        max-width: 480px;
       }
     }
 
@@ -384,11 +469,11 @@
      STORY
 ══════════════════════════════════════ -->
 <section class="story">
-  <div class="story-clearfix" style="display:grid; grid-template-columns: 35% 1fr; align-items: start; padding-left: var(--left-margin); padding-right: var(--left-margin);">
+  <div class="story-clearfix story-grid">
     <div class="story-pull">
       WHO IS GENE?
     </div>
-    <div class="story-body" style="padding-left: 0;">
+    <div class="story-body">
       <p>
         We know the trumpet player stereotype... add in a teenager with undiagnosed ADHD and a penchant for being a smart ass. I could definitely be a handful. It takes a special combination of qualities to reach a kid like that. I didn't want to let him down and when I was getting out of line, he didn't have to say a word... one look and I'd get the message.
       </p>
@@ -413,7 +498,7 @@
     <svg id="woodshedSvg" xmlns="http://www.w3.org/2000/svg"></svg>
   </div>
   <div class="woodshed-content" id="woodshedContent">
-    <div class="story-pull" style="color: var(--bg); font-size: clamp(40px, 5.5vw, 64px); float: none; padding-bottom: 24px; padding-left: var(--left-margin);">
+    <div class="story-pull" style="color: var(--bg); float: none; padding-bottom: 24px; padding-left: var(--left-margin); text-align: left;">
       DEVELOP YOUR<br>HARMONIC STYLE.
     </div>
     <div class="woodshed-content-inner">
@@ -467,6 +552,30 @@
           <img class="ws-ipad" src="images/iPad_bottom.png" alt="The Woodshed on iPad — chord detail">
         </div>
       </div>
+
+      <!-- Mobile-only: screenshot then feature text, stacked -->
+      <div class="ws-mobile-stack">
+
+        <img class="ws-mobile-img" src="images/iPhone_top.png" alt="The Woodshed — main screen">
+        <div class="ws-mobile-feature">
+          <div class="ws-mobile-headline">THE FULL VOCABULARY.</div>
+          <p class="ws-mobile-body">Every diatonic chord in the key. All seven. Pick any scale and the harmonic structure is right there, ready to drone.</p>
+        </div>
+
+        <img class="ws-mobile-img" src="images/iPhone_middle.png" alt="The Woodshed — chord detail">
+        <div class="ws-mobile-feature">
+          <div class="ws-mobile-headline">GET INSIDE THE CHORD.</div>
+          <p class="ws-mobile-body">A triad is just the beginning. Stack the seventh, the ninth, the eleventh, the thirteenth. Inversions. Work it until you know every note by feel.</p>
+        </div>
+
+        <img class="ws-mobile-img" src="images/iPhone_bottom.png" alt="The Woodshed — practice recordings">
+        <div class="ws-mobile-feature">
+          <div class="ws-mobile-headline">CAPTURE THE SESSION.</div>
+          <p class="ws-mobile-body">Record over the drone and play it back. You'll hear things you missed the first time through.</p>
+        </div>
+
+      </div>
+
     </div>
   </div>
 </div>
@@ -731,7 +840,7 @@
 
       const fs = Math.max(20, 144 * s);
       footerStack.style.paddingTop   = Math.max(4, topInFooter) + 'px';
-      footerStack.style.paddingLeft  = Math.max(16, leftInFooter) + 'px';
+      footerStack.style.paddingLeft  = (vw * 0.07) + 'px';
       footerStack.style.paddingRight = '0px';
       footerStack.querySelectorAll('span').forEach(el => { el.style.fontSize = fs + 'px'; });
     }
