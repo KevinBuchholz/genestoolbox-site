@@ -601,9 +601,13 @@
         Interested in early access? Just wanna be in the loop? Leave an email and I'll hit you up.
       </p>
       <div class="beta-form">
-        <input class="beta-input" type="email" placeholder="your@email.com">
-        <button class="beta-submit">Get in the Pocket</button>
-        <p class="beta-note">No spam. Just updates when something's actually ready. <a href="privacy.html" style="color: var(--fg); opacity: 1;">Privacy Policy.</a></p>
+        <input class="beta-input" type="email" id="betaEmail" placeholder="your@email.com">
+        <label style="display: flex; align-items: center; gap: 10px; font-size: clamp(13px, 1.1vw, 15px); opacity: 0.7; cursor: pointer;">
+          <input type="checkbox" id="betaTester" style="accent-color: var(--orange); width: 16px; height: 16px; cursor: pointer;">
+          I'd like to be a beta tester
+        </label>
+        <button class="beta-submit" id="betaSubmit">Get in the Pocket</button>
+        <p class="beta-note" id="betaNote">No spam. Just updates when something's actually ready.<br><a href="privacy.html" style="color: var(--fg); opacity: 1;">Privacy Policy.</a></p>
       </div>
     </div>
   </div>
@@ -850,6 +854,46 @@
       footerStack.querySelectorAll('span').forEach(el => { el.style.fontSize = fs + 'px'; });
     }
   }
+
+  // ── BETA FORM (Web3Forms) ──
+  const betaSubmit = document.getElementById('betaSubmit');
+  const betaEmail  = document.getElementById('betaEmail');
+  const betaNote   = document.getElementById('betaNote');
+  const betaTester = document.getElementById('betaTester');
+
+  betaSubmit.addEventListener('click', async () => {
+    const email = betaEmail.value.trim();
+    if (!email || !email.includes('@')) {
+      betaNote.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    betaSubmit.textContent = 'Sending...';
+    betaSubmit.disabled = true;
+
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        access_key: '8e072a7d-7fdc-41fc-b960-d63fa550d3e6',
+        email: email,
+        subject: "Gene's Toolbox — Beta Signup",
+        from_name: "Gene's Toolbox",
+        replyto: 'info@genestoolbox.app',
+        beta_tester: betaTester.checked ? 'Yes' : 'No',
+      }),
+    });
+
+    if (res.ok) {
+      betaSubmit.textContent = "You're in.";
+      betaEmail.style.display = 'none';
+      betaTester.parentElement.style.display = 'none';
+      betaNote.textContent = "We'll be in touch when something's ready.";
+    } else {
+      betaSubmit.textContent = 'Get in the Pocket';
+      betaSubmit.disabled = false;
+      betaNote.textContent = 'Something went wrong. Try again.';
+    }
+  });
 
   let raf;
   function schedule() { cancelAnimationFrame(raf); raf = requestAnimationFrame(render); }
